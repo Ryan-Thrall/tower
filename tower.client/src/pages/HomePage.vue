@@ -1,5 +1,22 @@
 <template>
-  {{events}}
+  <div class="container-fluid">
+    <div class="row mx-4">
+      <div class="col-12 mt-4 mb-4 d-flex justify-content-center">
+        <Hero />
+      </div>
+
+      <div class="col-12 mt-0 mb-4 d-flex justify-content-center">
+        <Filterbar />
+      </div>
+
+      <Event v-for="e in events" :key="e.id" :event="e" v-if="events.length > 1" />
+
+      <div v-else>
+        <h1>No Events Match This Filter</h1>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -8,26 +25,28 @@ import { onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import { eventsService } from '../services/EventsService.js'
 import Pop from '../utils/Pop.js';
+import Event from '../components/Event.vue';
+import Hero from '../components/Hero.vue';
+import Filterbar from '../components/Filterbar.vue';
 
 export default {
   setup() {
     async function getEvents() {
       try {
-        console.log('test')
-        const events = await eventsService.getAllEvents()
-        return events
-      } catch (error) {
-        Pop.error(error)
-        console.error(error, "[Getting Events]")
+        const events = await eventsService.getEvents('');
+        return events;
+      }
+      catch (error) {
+        Pop.error(error);
+        console.error(error, "[Getting Events]");
       }
     }
-
-    onMounted(() => getEvents)
-
+    onMounted(() => { getEvents(); });
     return {
       events: computed(() => AppState.events)
-    }
-  }
+    };
+  },
+  components: { Event, Hero, Filterbar }
 }
 </script>
 
@@ -50,5 +69,6 @@ export default {
       object-position: center;
     }
   }
+
 }
 </style>

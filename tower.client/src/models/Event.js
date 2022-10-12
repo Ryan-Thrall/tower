@@ -9,6 +9,7 @@ export class Event {
     this.coverImg = data.coverImg;
     this.location = data.location;
     this.capacity = data.capacity;
+    this.startDate = new Date(data.startDate).toLocaleDateString();
     this.isCanceled = data.isCanceled;
     this.type = data.type;
 

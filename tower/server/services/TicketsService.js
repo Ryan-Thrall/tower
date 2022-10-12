@@ -6,13 +6,23 @@ import { eventsService } from "./EventsService.js"
 
 class TicketsService {
 
-  async createTicket(ticketData) {
+  async createTicket(ticketData, userInfo) {
 
     const event = await eventsService.getEventById(ticketData.eventId)
 
     // @ts-ignore
     if (event.capacity <= 0) {
       throw new BadRequest('BAD REQUEST: Event has no more capacity')
+    }
+
+    const userTickets = await this.getUsersTickets(userInfo)
+    // console.log('hello')
+    // logger.log(userTickets)
+
+    const isIdenticalTicket = userTickets.filter(t => t.eventId == ticketData.eventId)
+
+    if (isIdenticalTicket.length != 0) {
+      throw new Forbidden('FORBIDDEN: You Already Have A Ticket')
     }
 
     // Create the ticket

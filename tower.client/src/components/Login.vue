@@ -12,22 +12,27 @@
     <div class="d-flex flex-column align-items-center" v-else>
       <div v-if="account.picture || user.picture" class="">
         <img :src="account.picture || user.picture" alt="account photo" height="40"
-          class="rounded mt-4 mb-2 account-photo" />
+          class="rounded mt-4 mb-3 account-photo" />
       </div>
 
-      <span class="selectable mb-2 text-light rounded px-3 py-2">
+      <router-link :to="{name: 'Home'}" class="selectable mb-3 text-light rounded px-3 py-2">
         <p class="m-0">Home</p>
-      </span>
+      </router-link>
 
-      <span class="selectable mb-4 text-light rounded px-3 py-2">
+      <router-link :to="{name: 'Account'}" class="selectable mb-3 text-light rounded px-3 py-2">
         <p class="m-0">Account</p>
-      </span>
+      </router-link>
 
-      <button class="btn btn-success order-4 mb-3" @click="logout"> New Event</button>
+      <button type="button" class="btn btn-success order-4 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        New
+        Event </button>
 
       <button class="btn btn-dark order-4 " @click="logout"><i class="mdi mdi-logout"></i> Logout</button>
     </div>
   </span>
+
+
+
 </template>
 
 <script>
